@@ -90,7 +90,7 @@ class RadioService : MediaSessionService() {
                     "filter" -> { filter = args.getString("id").orEmpty(); repo.prefs.edit().putString("world",filter).apply() }
                     "mode" -> { saveArchive(); mode = if (args.getString("id") == "archive") "archive" else "live"; repo.prefs.edit().putString("mode",mode).apply(); station?.let { tune(it.id,engine.playWhenReady,false) } }
                     "reload" -> { saveArchive(); tuning?.cancel(); engine.stop(); station = null; initialized = false; initialize() }
-                    else -> return Futures.immediateFuture(SessionResult(SessionResult.RESULT_ERROR_NOT_SUPPORTED))
+                    else -> return Futures.immediateFuture(SessionResult(SessionError.ERROR_NOT_SUPPORTED))
                 }
                 return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
             }
