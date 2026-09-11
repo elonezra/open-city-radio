@@ -1,0 +1,92 @@
+{
+  "packId": "open-city-demo",
+  "packVersion": "1",
+  "worlds": [
+    {
+      "worldId": "neon-1986",
+      "displayName": "Neon Coast",
+      "year": "1986",
+      "universe": "Demo",
+      "accentColor": "#65E9FF",
+      "secondaryColor": "#F36BCD"
+    },
+    {
+      "worldId": "sunset-1992",
+      "displayName": "Sunset District",
+      "year": "1992",
+      "universe": "Demo",
+      "accentColor": "#FFC36A",
+      "secondaryColor": "#B18355"
+    },
+    {
+      "worldId": "metro-2001",
+      "displayName": "Metro City",
+      "year": "2001",
+      "universe": "Demo",
+      "accentColor": "#A4CDDF",
+      "secondaryColor": "#7285AF"
+    }
+  ],
+  "stations": [
+    {
+      "stationId": "demo-0",
+      "worldId": "neon-1986",
+      "displayName": "Neon FM",
+      "frequency": "105.6",
+      "genre": "Synth demo",
+      "audioSource": "pack",
+      "audioPath": "demo/station-0.wav",
+      "durationMs": 24000,
+      "dailySeedEnabled": true,
+      "offsetMs": 0
+    },
+    {
+      "stationId": "demo-1",
+      "worldId": "neon-1986",
+      "displayName": "Afterglow",
+      "frequency": "98.7",
+      "genre": "Ambient demo",
+      "audioSource": "pack",
+      "audioPath": "demo/station-1.wav",
+      "durationMs": 28000,
+      "dailySeedEnabled": true,
+      "offsetMs": 1379
+    },
+    {
+      "stationId": "demo-2",
+      "worldId": "neon-1986",
+      "displayName": "Coastline",
+      "frequency": "103.0",
+      "genre": "Pulse demo",
+      "audioSource": "pack",
+      "audioPath": "demo/station-2.wav",
+      "durationMs": 32000,
+      "dailySeedEnabled": true,
+      "offsetMs": 2758
+    },
+    {
+      "stationId": "demo-3",
+      "worldId": "sunset-1992",
+      "displayName": "Sunset Groove",
+      "frequency": "101.2",
+      "genre": "Bass demo",
+      "audioSource": "pack",
+      "audioPath": "demo/station-3.wav",
+      "durationMs": 36000,
+      "dailySeedEnabled": true,
+      "offsetMs": 4137
+    },
+    {
+      "stationId": "demo-4",
+      "worldId": "metro-2001",
+      "displayName": "Night Signal",
+      "frequency": "94.4",
+      "genre": "Keys demo",
+      "audioSource": "pack",
+      "audioPath": "demo/station-4.wav",
+      "durationMs": 40000,
+      "dailySeedEnabled": true,
+      "offsetMs": 5516
+    }
+  ]
+}
