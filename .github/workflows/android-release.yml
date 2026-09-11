@@ -43,6 +43,19 @@ jobs:
       - name: Run core checks
         run: bash tools/check-core.sh
 
+      - name: Patch known Kotlin compile blockers
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("app/src/main/java/com/opencity/radio/MainActivity.kt")
+          s = p.read_text()
+          s = s.replace("import androidx.media3.session.*", "import androidx.media3.session.MediaController\nimport androidx.media3.session.SessionCommand\nimport androidx.media3.session.SessionResult\nimport androidx.media3.session.SessionToken")
+          s = s.replace("val background=ImageView(this).apply { scaleType=ImageView.ScaleType.CENTER_CROP; alpha=.35f }", "val backgroundImage=ImageView(this).apply { scaleType=ImageView.ScaleType.CENTER_CROP; alpha=.35f }")
+          s = s.replace("card.addView(background,FrameLayout.LayoutParams(-1,-1))", "card.addView(backgroundImage,FrameLayout.LayoutParams(-1,-1))")
+          s = s.replace("if(back!=null) background.load(back)", "if(back!=null) backgroundImage.load(back)")
+          p.write_text(s)
+          PY
+
       - name: Build and test debug APK
         run: gradle --no-daemon testDebugUnitTest lintDebug assembleDebug --stacktrace
 
