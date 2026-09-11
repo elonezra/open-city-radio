@@ -1,0 +1,78 @@
+name: Android APK Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-release
+  cancel-in-progress: true
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android API 35
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Set up Gradle 8.10.2
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+
+      - name: Run core checks
+        run: bash tools/check-core.sh
+
+      - name: Build and test debug APK
+        run: gradle --no-daemon testDebugUnitTest lintDebug assembleDebug --stacktrace
+
+      - name: Prepare APK
+        run: |
+          mkdir -p release
+          cp app/build/outputs/apk/debug/app-debug.apk release/open-city-radio-dev.apk
+          sha256sum release/open-city-radio-dev.apk > release/open-city-radio-dev.apk.sha256
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-city-radio-debug-apk
+          path: |
+            release/open-city-radio-dev.apk
+            release/open-city-radio-dev.apk.sha256
+          if-no-files-found: error
+
+      - name: Publish rolling GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="dev-latest"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release delete "$TAG" --yes --cleanup-tag
+          fi
+          gh release create "$TAG" \
+            release/open-city-radio-dev.apk \
+            release/open-city-radio-dev.apk.sha256 \
+            --target "$GITHUB_SHA" \
+            --title "Open City Radio - Latest Test APK" \
+            --notes "Automatically built from the latest main branch commit. This is a debug-signed test build for direct installation on Android, not a Play Store production release." \
+            --prerelease
