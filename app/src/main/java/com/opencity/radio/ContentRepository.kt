@@ -100,6 +100,7 @@ class ContentRepository(private val context: Context) {
     }
     @Synchronized fun resolve(asset: Asset): Any {
         if (asset.source in setOf("pack","zip")) return localAsset(asset)
+        if (asset.isStream) return asset.url
         val identity = "${pack?.id}:${pack?.version}:${asset.url}"
         val hash = MessageDigest.getInstance("SHA-256").digest(identity.toByteArray()).joinToString("") { "%02x".format(it) }
         val file = File(cache,hash)
