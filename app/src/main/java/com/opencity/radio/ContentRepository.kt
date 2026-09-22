@@ -15,7 +15,7 @@ class ContentRepository(private val context: Context) {
     val prefs = context.getSharedPreferences("radio", Context.MODE_PRIVATE)
     val home = File(context.getExternalFilesDir(null) ?: context.filesDir, "RadioPacks").apply { mkdirs() }
     private val cache = File(context.filesDir, "downloaded-assets").apply { mkdirs() }
-    val activeSource: String get() = prefs.getString("manifest", "builtin") ?: "builtin"
+    val activeSource: String get() = prefs.getString("manifest", "asset:gtaradio.json") ?: "asset:gtaradio.json"
     val activeRoot: File get() = File(prefs.getString("root", home.path) ?: home.path)
     @Volatile var pack: RadioPack? = null; private set
     @Volatile var errors: List<String> = emptyList(); private set
@@ -37,6 +37,7 @@ class ContentRepository(private val context: Context) {
         val source = activeSource
         val text = when {
             source == "builtin" -> readText(context.assets.open("manifest.json"))
+            source == "asset:gtaradio.json" -> readText(context.assets.open("gtaradio.json"))
             source.startsWith("content:") -> readText(context.contentResolver.openInputStream(Uri.parse(source)) ?: error("JSON permission lost; select the file again"))
             else -> readText(File(source).inputStream())
         }
@@ -49,6 +50,7 @@ class ContentRepository(private val context: Context) {
         return parsed
     }
     @Synchronized fun builtin() { prefs.edit().putString("manifest","builtin").remove("tree").apply(); reload() }
+    @Synchronized fun gtaradio() { prefs.edit().putString("manifest","asset:gtaradio.json").remove("tree").apply(); reload() }
     @Synchronized fun external(uri: Uri) {
         val parsed = ManifestParser.parse(readText(context.contentResolver.openInputStream(uri) ?: error("Cannot read JSON")))
         context.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -100,6 +102,7 @@ class ContentRepository(private val context: Context) {
     }
     @Synchronized fun resolve(asset: Asset): Any {
         if (asset.source in setOf("pack","zip")) return localAsset(asset)
+        if (asset.isStream) return asset.url
         val identity = "${pack?.id}:${pack?.version}:${asset.url}"
         val hash = MessageDigest.getInstance("SHA-256").digest(identity.toByteArray()).joinToString("") { "%02x".format(it) }
         val file = File(cache,hash)
@@ -152,7 +155,7 @@ class ContentRepository(private val context: Context) {
     @Synchronized fun clear() {
         home.deleteRecursively(); home.mkdirs(); cache.deleteRecursively(); cache.mkdirs()
         prefs.edit().remove("manifest").remove("root").remove("tree").remove("lastStation").remove("world").apply()
-        builtin()
+        gtaradio()
     }
     fun favorite(id: String): Boolean = prefs.getStringSet("favorites",emptySet())!!.contains(id)
     fun toggleFavorite(id: String) {

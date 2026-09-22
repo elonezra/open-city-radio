@@ -27,7 +27,8 @@ class RadioService : MediaSessionService() {
     private var wantPlay = false
     private var initialized = false
     private fun archiveKey(s: Station) = "archive:$stationPackId:${s.id}"
-    private fun saveArchive() { if (mode == "archive") station?.let { repo.prefs.edit().putLong(archiveKey(it),engine.currentPosition.coerceAtLeast(0)).apply() } }
+    private fun isStream(s: Station?) = s?.audio?.isStream == true
+    private fun saveArchive() { if (mode == "archive" && !isStream(station)) station?.let { repo.prefs.edit().putLong(archiveKey(it),engine.currentPosition.coerceAtLeast(0)).apply() } }
 
     override fun onCreate() {
         super.onCreate()
@@ -51,7 +52,7 @@ class RadioService : MediaSessionService() {
                         }
                     }
                 }
-                override fun onPlayerError(error: PlaybackException) { wantPlay = false; report("Audio could not be played. Check the pack file and supported codec.") }
+                override fun onPlayerError(error: PlaybackException) { wantPlay = false; report(if (isStream(station)) "Live stream could not be played. Check the network or try the station again." else "Audio could not be played. Check the pack file and supported codec.") }
             })
         }
         val controls = object : ForwardingPlayer(engine) {
@@ -70,10 +71,10 @@ class RadioService : MediaSessionService() {
             override fun pause() { wantPlay = false; engine.pause(); saveArchive() }
             override fun setPlayWhenReady(playWhenReady: Boolean) { if (playWhenReady) resumeRadio() else pause() }
             override fun stop() { wantPlay = false; saveArchive(); engine.stop() }
-            override fun seekTo(positionMs: Long) { if (mode == "archive") engine.seekTo(positionMs) }
-            override fun seekTo(mediaItemIndex: Int, positionMs: Long) { if (mode == "archive") engine.seekTo(positionMs) }
-            override fun seekBack() { if (mode == "archive") engine.seekBack() }
-            override fun seekForward() { if (mode == "archive") engine.seekForward() }
+            override fun seekTo(positionMs: Long) { if (mode == "archive" && !isStream(station)) engine.seekTo(positionMs) }
+            override fun seekTo(mediaItemIndex: Int, positionMs: Long) { if (mode == "archive" && !isStream(station)) engine.seekTo(positionMs) }
+            override fun seekBack() { if (mode == "archive" && !isStream(station)) engine.seekBack() }
+            override fun seekForward() { if (mode == "archive" && !isStream(station)) engine.seekForward() }
         }
         val launch = PendingIntent.getActivity(this,0,Intent(this,MainActivity::class.java),PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
         session = MediaSession.Builder(this,controls).setSessionActivity(launch).setCallback(object : MediaSession.Callback {
@@ -113,6 +114,7 @@ class RadioService : MediaSessionService() {
         if (!initialized) return
         val s = station ?: return
         if (engine.playbackState == Player.STATE_IDLE) { tune(s.id,true); return }
+        if (isStream(s)) { engine.play(); return }
         if (!pendingOffset && mode == "live" && engine.duration > 0) engine.seekTo(livePosition(s,engine.duration))
         if (!pendingOffset) engine.play()
     }
@@ -129,13 +131,17 @@ class RadioService : MediaSessionService() {
             try {
                 val resolved = withContext(Dispatchers.IO) { repo.resolve(next.audio) }
                 ensureActive()
-                station = next; stationPackId = repo.pack?.id.orEmpty(); pendingOffset = true
+                station = next; stationPackId = repo.pack?.id.orEmpty(); pendingOffset = !next.audio.isStream
                 val world = repo.pack!!.worlds.first { it.id == next.worldId }
                 repo.prefs.edit().putString("lastStation",next.id).apply()
                 val uri = if (resolved is java.io.File) android.net.Uri.fromFile(resolved) else android.net.Uri.parse(resolved.toString())
+                val artist = listOf(world.name, world.year.takeIf { it.isNotBlank() }, next.frequency.takeIf { it.isNotBlank() }?.let { "$it FM" })
+                    .filterNotNull().joinToString(" · ")
+                engine.repeatMode = if (next.audio.isStream) Player.REPEAT_MODE_OFF else Player.REPEAT_MODE_ONE
                 engine.setMediaItem(MediaItem.Builder().setMediaId(next.id).setUri(uri).setMediaMetadata(
-                    MediaMetadata.Builder().setTitle(next.name).setArtist("${world.name} · ${world.year} · ${next.frequency} FM").setIsPlayable(true).build()).build())
+                    MediaMetadata.Builder().setTitle(next.name).setArtist(artist).setIsPlayable(true).build()).build())
                 engine.prepare()
+                if (next.audio.isStream) engine.playWhenReady = wantPlay
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) { wantPlay = false; report("${next.name}: audio unavailable. Check the content folder or download link.") }
         }

@@ -1,0 +1,746 @@
+{
+  "packId": "gtaradio-online",
+  "packVersion": "2026-09-22",
+  "worlds": [
+    {
+      "worldId": "3",
+      "displayName": "GTA III",
+      "year": "2001",
+      "universe": "3D Universe",
+      "accentColor": "#8EC7E8",
+      "secondaryColor": "#E6A85C"
+    },
+    {
+      "worldId": "vc",
+      "displayName": "GTA: Vice City",
+      "year": "1986",
+      "universe": "3D Universe",
+      "accentColor": "#65E9FF",
+      "secondaryColor": "#F36BCD"
+    },
+    {
+      "worldId": "sa",
+      "displayName": "GTA: San Andreas",
+      "year": "1992",
+      "universe": "3D Universe",
+      "accentColor": "#E2C27A",
+      "secondaryColor": "#8DBB73"
+    },
+    {
+      "worldId": "lcs",
+      "displayName": "GTA: Liberty City Stories",
+      "year": "1998",
+      "universe": "3D Universe",
+      "accentColor": "#A7B6C8",
+      "secondaryColor": "#DA6B61"
+    },
+    {
+      "worldId": "vcs",
+      "displayName": "GTA: Vice City Stories",
+      "year": "1984",
+      "universe": "3D Universe",
+      "accentColor": "#F29BCB",
+      "secondaryColor": "#69D5DC"
+    },
+    {
+      "worldId": "4",
+      "displayName": "GTA IV",
+      "year": "2008",
+      "universe": "HD Universe",
+      "accentColor": "#B7C7D6",
+      "secondaryColor": "#73879B"
+    }
+  ],
+  "stations": [
+    {
+      "stationId": "3-head",
+      "worldId": "3",
+      "displayName": "Head Radio",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/3/head",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "3-class",
+      "worldId": "3",
+      "displayName": "Double Clef FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/3/class",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "3-kjah",
+      "worldId": "3",
+      "displayName": "K-JAH",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/3/kjah",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "3-rise",
+      "worldId": "3",
+      "displayName": "Rise FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/3/rise",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "3-lips",
+      "worldId": "3",
+      "displayName": "Lips 106",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/3/lips",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "3-game",
+      "worldId": "3",
+      "displayName": "Game FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/3/game",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "3-msx",
+      "worldId": "3",
+      "displayName": "MSX FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/3/msx",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "3-flash",
+      "worldId": "3",
+      "displayName": "Flashback 95.6",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/3/flash",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "3-chat",
+      "worldId": "3",
+      "displayName": "Chatterbox FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/3/chat",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vc-emotion",
+      "worldId": "vc",
+      "displayName": "Emotion 98.3",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vc/emotion",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vc-espant",
+      "worldId": "vc",
+      "displayName": "Espantoso",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vc/espant",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vc-fever",
+      "worldId": "vc",
+      "displayName": "Fever 105",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vc/fever",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vc-flash",
+      "worldId": "vc",
+      "displayName": "Flash FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vc/flash",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vc-kchat",
+      "worldId": "vc",
+      "displayName": "K-Chat",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vc/kchat",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vc-vcpr",
+      "worldId": "vc",
+      "displayName": "VCPR",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vc/vcpr",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vc-vrock",
+      "worldId": "vc",
+      "displayName": "V-Rock",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vc/vrock",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vc-wave",
+      "worldId": "vc",
+      "displayName": "Wave 103",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vc/wave",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vc-wild",
+      "worldId": "vc",
+      "displayName": "Wildstyle",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vc/wild",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-bounce-fm",
+      "worldId": "sa",
+      "displayName": "Bounce FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/bounce-fm",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-csr",
+      "worldId": "sa",
+      "displayName": "CSR 103.9",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/csr",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-k-dst",
+      "worldId": "sa",
+      "displayName": "K-DST",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/k-dst",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-k-jah",
+      "worldId": "sa",
+      "displayName": "K-JAH West",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/k-jah",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-k-rose",
+      "worldId": "sa",
+      "displayName": "K-Rose",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/k-rose",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-master-sounds",
+      "worldId": "sa",
+      "displayName": "Master Sounds 98.3",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/master-sounds",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-playback-fm",
+      "worldId": "sa",
+      "displayName": "Playback FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/playback-fm",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-radio-x",
+      "worldId": "sa",
+      "displayName": "Radio X",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/radio-x",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-sfur",
+      "worldId": "sa",
+      "displayName": "SF-UR",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/sfur",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "sa-wctr",
+      "worldId": "sa",
+      "displayName": "WCTR",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/sa/wctr",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-head",
+      "worldId": "lcs",
+      "displayName": "Head Radio",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/head",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-double",
+      "worldId": "lcs",
+      "displayName": "Double Cleff FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/double",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-kjah",
+      "worldId": "lcs",
+      "displayName": "K-Jah",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/kjah",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-rise",
+      "worldId": "lcs",
+      "displayName": "Rise FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/rise",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-lips",
+      "worldId": "lcs",
+      "displayName": "Lips 106",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/lips",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-mundo",
+      "worldId": "lcs",
+      "displayName": "Radio Del Mundo",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/mundo",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-msx",
+      "worldId": "lcs",
+      "displayName": "MSX 98",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/msx",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-flash",
+      "worldId": "lcs",
+      "displayName": "Flashback FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/flash",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-lcj",
+      "worldId": "lcs",
+      "displayName": "The Liberty Jam",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/lcj",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "lcs-lcfr",
+      "worldId": "lcs",
+      "displayName": "Liberty City Free Radio",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/lcs/lcfr",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vcs-flash",
+      "worldId": "vcs",
+      "displayName": "Flash FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vcs/flash",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vcs-vrock",
+      "worldId": "vcs",
+      "displayName": "V-Rock",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vcs/vrock",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vcs-paradise",
+      "worldId": "vcs",
+      "displayName": "Paradise FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vcs/paradise",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vcs-vcpr",
+      "worldId": "vcs",
+      "displayName": "VCPR",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vcs/vcpr",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vcs-vcfl",
+      "worldId": "vcs",
+      "displayName": "VCFL",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vcs/vcfl",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vcs-wave",
+      "worldId": "vcs",
+      "displayName": "Wave 103",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vcs/wave",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vcs-fresh",
+      "worldId": "vcs",
+      "displayName": "Fever 105",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vcs/fresh",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vcs-espant",
+      "worldId": "vcs",
+      "displayName": "Espantoso",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vcs/espant",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "vcs-emotion",
+      "worldId": "vcs",
+      "displayName": "Emotion 98.3",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/vcs/emotion",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-afro_beat",
+      "worldId": "4",
+      "displayName": "International Funk 99",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/afro_beat",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-babylon",
+      "worldId": "4",
+      "displayName": "Tuff Gong Radio",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/babylon",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-the_vibe",
+      "worldId": "4",
+      "displayName": "The Vibe 98.8",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/the_vibe",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-liberty_rock",
+      "worldId": "4",
+      "displayName": "Liberty Rock Radio 97.8",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/liberty_rock",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-jazz_nation",
+      "worldId": "4",
+      "displayName": "Jazz Nation Radio 108.5",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/jazz_nation",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-bobby_konders",
+      "worldId": "4",
+      "displayName": "Massive B Soundsystem 96.9",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/bobby_konders",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-meditation",
+      "worldId": "4",
+      "displayName": "Self Actualization FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/meditation",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-k109_the_studio",
+      "worldId": "4",
+      "displayName": "K109 The Studio",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/k109_the_studio",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-vcfm",
+      "worldId": "4",
+      "displayName": "Vice City FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/vcfm",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-wktt",
+      "worldId": "4",
+      "displayName": "We Know The Truth",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/wktt",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-hardcore",
+      "worldId": "4",
+      "displayName": "Liberty City Hardcore",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/hardcore",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-classical_ambient",
+      "worldId": "4",
+      "displayName": "The Journey",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/classical_ambient",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-fusion_fm",
+      "worldId": "4",
+      "displayName": "Fusion FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/fusion_fm",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-beat_95",
+      "worldId": "4",
+      "displayName": "The Beat 102.7",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/beat_95",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-ramjamfm",
+      "worldId": "4",
+      "displayName": "Ram Jam FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/ramjamfm",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-dance_rock",
+      "worldId": "4",
+      "displayName": "Radio Broker",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/dance_rock",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-vladivostok",
+      "worldId": "4",
+      "displayName": "Vladivostok FM",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/vladivostok",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-plr",
+      "worldId": "4",
+      "displayName": "Public Liberty Radio",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/plr",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-san_juan_sounds",
+      "worldId": "4",
+      "displayName": "San Juan Sounds",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/san_juan_sounds",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-dance_mix",
+      "worldId": "4",
+      "displayName": "Electro Choc",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/dance_mix",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-ny_classics",
+      "worldId": "4",
+      "displayName": "The Classics 104.1",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/ny_classics",
+      "dailySeedEnabled": false
+    },
+    {
+      "stationId": "4-lazlow",
+      "worldId": "4",
+      "displayName": "Integrity 2.0",
+      "frequency": "",
+      "genre": "Live stream via GTA Radio",
+      "audioSource": "stream",
+      "audioUrl": "https://audio.gtaradio.net/4/lazlow",
+      "dailySeedEnabled": false
+    }
+  ]
+}

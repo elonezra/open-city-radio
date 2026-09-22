@@ -20,7 +20,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.session.*
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionCommand
+import androidx.media3.session.SessionResult
+import androidx.media3.session.SessionToken
 import coil.load
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
@@ -174,16 +177,16 @@ class MainActivity : ComponentActivity() {
         val accent=if(theme=="world") color(world.accent) else color(s.accent)
         val secondary=if(theme=="world") color(world.secondary,pink) else color(s.secondary,pink)
         val card=FrameLayout(this).apply { background=panel(accent); clipToOutline=true }
-        val art=RadioArtView(this).apply { this.accent=accent; this.secondary=secondary; title=s.name.uppercase(); frequency="FM ${s.frequency}"; contentDescription="${s.name} station artwork" }
+        val art=RadioArtView(this).apply { this.accent=accent; this.secondary=secondary; title=s.name.uppercase(); frequency=if(s.frequency.isBlank()) "LIVE" else "FM ${s.frequency}"; contentDescription="${s.name} station artwork" }
         card.addView(art,FrameLayout.LayoutParams(-1,-1))
-        val background=ImageView(this).apply { scaleType=ImageView.ScaleType.CENTER_CROP; alpha=.35f }
-        card.addView(background,FrameLayout.LayoutParams(-1,-1))
+        val backgroundImage=ImageView(this).apply { scaleType=ImageView.ScaleType.CENTER_CROP; alpha=.35f }
+        card.addView(backgroundImage,FrameLayout.LayoutParams(-1,-1))
         val logo=ImageView(this).apply { scaleType=ImageView.ScaleType.FIT_CENTER; contentDescription="${s.name} logo"; setPadding(dp(20),dp(20),dp(20),dp(20)) }
         card.addView(logo,FrameLayout.LayoutParams(-1,-1))
         artworkJob=lifecycleScope.launch {
             val bgAsset=if(s.background.path.isNotBlank() || s.background.url.isNotBlank()) s.background else world.background
             val back=withContext(Dispatchers.IO) { runCatching { repo.resolve(bgAsset) }.getOrNull() }
-            if(back!=null) background.load(back)
+            if(back!=null) backgroundImage.load(back)
             val image=withContext(Dispatchers.IO) { runCatching { repo.resolve(s.logo) }.getOrNull() }
             if(image!=null) logo.load(image) { listener(onSuccess={_,_->art.title=""; art.frequency=""; art.invalidate()}) }
         }
@@ -253,7 +256,8 @@ class MainActivity : ComponentActivity() {
             val item=row().apply { background=panel(if(s.id==selected?.id)color(s.accent) else Color.rgb(51,63,84)); setPadding(dp(8),dp(8),dp(8),dp(8)) }
             val badge=ImageView(this).apply { setImageResource(R.drawable.ic_radio); scaleType=ImageView.ScaleType.FIT_CENTER; contentDescription="${s.name} logo" }
             item.addView(badge,LinearLayout.LayoutParams(dp(if(car)80 else 54),dp(if(car)80 else 64))); loadAsset(badge,s.logo)
-            val label=column().apply { addView(text(s.name,if(car)23f else 19f,fg,true)); addView(text("${s.frequency} FM · ${s.genre}",15f,muted)); setOnClickListener { tune(s) }; contentDescription="Play ${s.name}" }
+            val detail=listOf(s.frequency.takeIf { it.isNotBlank() }?.let { "$it FM" },s.genre.takeIf { it.isNotBlank() }).filterNotNull().joinToString(" · ")
+            val label=column().apply { addView(text(s.name,if(car)23f else 19f,fg,true)); if(detail.isNotBlank()) addView(text(detail,15f,muted)); setOnClickListener { tune(s) }; contentDescription="Play ${s.name}" }
             item.addView(label,LinearLayout.LayoutParams(0,-2,1f)); item.addView(button(if(repo.favorite(s.id)) "★" else "☆") { repo.toggleFavorite(s.id); render() },LinearLayout.LayoutParams(dp(58),dp(62)))
             item.addView(button("▶") { tune(s) },LinearLayout.LayoutParams(dp(62),dp(62))); body.addBlock(item)
         }
@@ -261,9 +265,10 @@ class MainActivity : ComponentActivity() {
     private fun welcome(body: LinearLayout) {
         body.addBlock(RadioArtView(this).apply { title="OPEN CITY"; frequency="RADIO" },dp(240))
         body.addBlock(text("Your city. Always on air.",30f,fg,true))
-        body.addBlock(text("Bring your private Radio Pack, or try five original demo loops. Manage content while parked.",18f,muted))
+        body.addBlock(text("GTA stations in a phone-friendly native player, plus support for your own Radio Packs.",18f,muted))
+        body.addBlock(button("GTA Radio Online") { runTask("Loading GTA Radio") { repo.gtaradio() } })
         importButtons(body)
-        body.addBlock(button("Try demo stations") { repo.prefs.edit().putBoolean("welcomed",true).apply(); navigate("worlds") })
+        body.addBlock(button("Try demo stations") { runTask("Loading demo library") { repo.builtin() } })
     }
     private fun importButtons(body: LinearLayout) {
         body.addBlock(button("Import ZIP") { if(!busy) zipPicker.launch(arrayOf("application/zip","application/x-zip-compressed","application/octet-stream")) })
@@ -272,14 +277,16 @@ class MainActivity : ComponentActivity() {
     }
     private fun settings(body: LinearLayout) {
         body.addBlock(text("CONTENT LIBRARY",15f,cyan,true))
-        body.addBlock(text("Active manifest: ${if(repo.activeSource=="builtin") "Built-in JSON" else "External JSON / pack"}",17f,fg,true))
+        val sourceLabel=when(repo.activeSource) { "builtin" -> "Built-in demo"; "asset:gtaradio.json" -> "GTA Radio Online"; else -> "External JSON / pack" }
+        body.addBlock(text("Active library: $sourceLabel",17f,fg,true))
         body.addBlock(text("${repo.pack?.worlds?.size ?: 0} worlds · ${repo.pack?.stations?.size ?: 0} stations · ${repo.pack?.id ?: "No valid pack"} v${repo.pack?.version ?: "—"}",15f,muted))
         body.addBlock(text("Content location: ${if(repo.prefs.contains("tree")) "Selected document folder" else repo.activeRoot.path}\nFree space: ${repo.home.usableSpace/1048576} MB",13f,muted))
         if(busy) { busyView=text("Working…",18f,cyan); body.addBlock(busyView!!); return }
         importButtons(body)
         body.addBlock(button("Select / change external JSON") { jsonPicker.launch(arrayOf("application/json","text/plain","application/octet-stream")) })
         body.addBlock(button("Reload manifest / rescan") { runTask("Rescanning") { repo.reload() } })
-        body.addBlock(button("Use built-in JSON") { runTask("Loading demo library") { repo.builtin() } })
+        body.addBlock(button("Use GTA Radio Online") { runTask("Loading GTA Radio") { repo.gtaradio() } })
+        body.addBlock(button("Use built-in demo") { runTask("Loading demo library") { repo.builtin() } })
         body.addBlock(text("PLAYBACK & DISPLAY",15f,cyan,true))
         body.addBlock(button("Mode: ${repo.prefs.getString("mode","live")}") { choose("Playback mode",listOf("live","archive")) { command("mode",it); repo.prefs.edit().putString("mode",it).apply(); render() } })
         body.addBlock(button("Daily seed: ${if(repo.prefs.getBoolean("dailySeed",true)) "enabled" else "disabled"}") { repo.prefs.edit().putBoolean("dailySeed",!repo.prefs.getBoolean("dailySeed",true)).apply(); render() })
@@ -291,7 +298,9 @@ class MainActivity : ComponentActivity() {
                 AlertDialog.Builder(this).setTitle("Confirm deletion").setPositiveButton("Delete app copies") { _,_->controller?.stop(); runTask("Clearing library") { repo.clear() } }.setNegativeButton("Cancel",null).show()
             }.show()
         })
-        body.addBlock(text("No account. No telemetry. After an asset downloads successfully, its local copy is reused. Drive sign-in pages must be downloaded manually. Imports and settings are intended for parked use.",14f,muted))
+        body.addBlock(text("GTA Radio Online streams are provided by gtaradio.net. Open City Radio is a fan-made client and is not affiliated with Rockstar Games, Take-Two, or GTA Radio. No account or telemetry is added by this app.",14f,muted))
+        body.addBlock(button("Open gtaradio.net") { startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://gtaradio.net/"))) })
+        body.addBlock(text("Downloaded pack assets are cached locally. Drive sign-in pages must be downloaded manually. Imports and settings are intended for parked use.",14f,muted))
     }
     private fun choose(title: String,values: List<String>,done: (String)->Unit) { AlertDialog.Builder(this).setTitle(title).setItems(values.map { it.ifEmpty { "All" } }.toTypedArray()) { _,i->done(values[i]) }.setNegativeButton("Cancel",null).show() }
     private fun input(title: String,current: String,done: (String)->Unit) {

@@ -2,7 +2,9 @@ package com.opencity.radio
 
 import org.json.JSONObject
 
-data class Asset(val source: String = "pack", val path: String = "", val url: String = "")
+data class Asset(val source: String = "pack", val path: String = "", val url: String = "") {
+    val isStream: Boolean get() = source == "stream"
+}
 data class World(val id: String, val name: String, val year: String, val universe: String,
                  val accent: String = "#65E9FF", val secondary: String = "#F36BCD", val background: Asset = Asset())
 data class Station(val id: String, val worldId: String, val name: String, val frequency: String,
@@ -19,9 +21,11 @@ object ManifestParser {
         }
         fun asset(o: JSONObject, prefix: String): Asset {
             val source = o.optString("${prefix}Source", "pack").lowercase()
-            require(source in setOf("pack", "zip", "url", "drive")) { "Unknown $prefix source" }
+            require(source in setOf("pack", "zip", "url", "drive", "stream")) { "Unknown $prefix source" }
             val a = Asset(source, o.optString("${prefix}Path"), o.optString("${prefix}Url"))
-            if (source in setOf("url", "drive")) require(a.url.startsWith("https://")) { "$prefix requires an HTTPS URL" }
+            if (source in setOf("url", "drive", "stream")) {
+                require(a.url.startsWith("https://")) { "$prefix requires an HTTPS URL" }
+            }
             return a
         }
         val worlds = root.getJSONArray("worlds").let { list -> (0 until list.length()).map { i ->
