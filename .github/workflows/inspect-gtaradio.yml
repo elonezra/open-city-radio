@@ -1,0 +1,86 @@
+name: Inspect GTA Radio frontend
+
+on:
+  push:
+    branches:
+      - feature/gtaradio-mobile-streams
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect public client assets
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import re, urllib.request, urllib.parse, ssl
+
+          pages = [
+              "https://gtaradio.net/en/vc",
+              "https://gtaradio.net/en/sa",
+              "https://gtaradio.net/en/3",
+              "https://gtaradio.net/en/4",
+              "https://gtaradio.net/en/lcs",
+              "https://gtaradio.net/en/vcs",
+          ]
+          ua = "Mozilla/5.0 (Linux; Android 16) AppleWebKit/537.36 Chrome/140 Mobile Safari/537.36"
+          ctx = ssl.create_default_context()
+
+          def get(url):
+              req = urllib.request.Request(url, headers={"User-Agent": ua, "Accept": "*/*"})
+              with urllib.request.urlopen(req, timeout=25, context=ctx) as r:
+                  return r.geturl(), r.headers.get_content_type(), r.read().decode("utf-8", "replace")
+
+          assets = {}
+          for page in pages:
+              try:
+                  final, ctype, html = get(page)
+                  print(f"PAGE {page} -> {final} {ctype} bytes={len(html)}")
+                  for m in re.finditer(r'<script[^>]+src=["\']([^"\']+)', html, re.I):
+                      u = urllib.parse.urljoin(final, m.group(1))
+                      assets[u] = None
+                      print("SCRIPT", u)
+                  for m in re.finditer(r'<link[^>]+href=["\']([^"\']+)', html, re.I):
+                      u = urllib.parse.urljoin(final, m.group(1))
+                      if ".js" in u:
+                          assets[u] = None
+                          print("JS-LINK", u)
+                  for pat in [r'https?://[^"\'<> ]+', r'/(?:api|audio|stream|radio)[^"\'<> ]*']:
+                      for x in re.findall(pat, html, re.I):
+                          print("HTML-CANDIDATE", x[:500])
+              except Exception as e:
+                  print("PAGE-ERROR", page, repr(e))
+
+          blob = []
+          for url in list(assets):
+              try:
+                  final, ctype, text = get(url)
+                  print(f"ASSET {url} -> {final} {ctype} bytes={len(text)}")
+                  blob.append((url, text))
+              except Exception as e:
+                  print("ASSET-ERROR", url, repr(e))
+
+          seen=set()
+          url_rx = re.compile(r'https?://[^"\'<>\\ ]+')
+          path_rx = re.compile(r'["\']([^"\']{1,300}(?:\.m3u8|\.mp3|\.aac|\.ogg|\.opus|\.flac|/api/|/stream|stream/|audio/)[^"\']*)["\']', re.I)
+          for src, text in blob:
+              print("\n=== SCAN", src, "===")
+              for u in url_rx.findall(text):
+                  if any(k in u.lower() for k in ["gtaradio","audio","stream","radio",".mp3",".m3u8",".aac",".ogg",".opus"]):
+                      if u not in seen:
+                          seen.add(u); print("URL", u[:1000])
+              for p in path_rx.findall(text):
+                  key=("P",p)
+                  if key not in seen:
+                      seen.add(key); print("PATH", p[:1000])
+              for keyword in [".m3u8",".mp3","new Audio","fetch(","WebSocket","EventSource","stream","station"]:
+                  start=0; count=0
+                  while count < 12:
+                      i=text.lower().find(keyword.lower(), start)
+                      if i < 0: break
+                      print("CTX", keyword, text[max(0,i-220):i+420].replace("\n"," ")[:700])
+                      start=i+len(keyword); count+=1
+          PY
